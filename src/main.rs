@@ -37,14 +37,14 @@ async fn main() {
     let mut input_meters = TextInput::new(50.0, 200.0, 200.0, 50.0, 30.0);
     let mut input_centimeters = TextInput::new(350.0, 200.0, 230.0, 50.0, 30.0);
     let mut btn_exit = TextButton::new(400.0, 700.0, 150.0, 50.0, "EXIT", GRAY, RED, 30);
-    let mut btn_calc = TextButton::new(50.0, 350.0, 150.0, 50.0, "CALCULATE", GRAY, GREEN, 30);
+    let mut btn_calc = TextButton::new(50.0, 450.0, 150.0, 50.0, "CALCULATE", GRAY, GREEN, 30);
     let mut lbl_out = Label::new("Your converted amount will appear here.", 50.0, 325.0, 30);
     input_centimeters.set_prompt("Input Centimeters");
     input_meters.set_prompt("Input Meters");
     btn_exit.with_text_color(BLACK);
     btn_exit.with_hover_text_color(WHITE);
     btn_calc.with_text_color(BLACK);
-    input_meters.set_max_chars(16).set_allowed_chars("0123456789.");
+    input_meters.set_max_chars(14).set_allowed_chars("0123456789.");
     input_centimeters.set_max_chars(16).set_allowed_chars("0123456789.");
 
     loop {
@@ -58,7 +58,7 @@ async fn main() {
             let inches = input_centimeters.get_text().parse::<f32>();
             if let Ok(feet) = feet {
                 if let Ok(inches) = inches {
-                    lbl_out.set_text(format!("Feet: {:.2} Inches: {:.2}", feet * 3.28084, inches * 0.393701));
+                    lbl_out.set_text(format!("Feet: {:.3} \nInches: {:.3}", feet * 3.28084, inches * 0.393701));
                 } else {
                     lbl_out.set_text("Invalid input. Please enter a valid number.");
                 }
