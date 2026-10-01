@@ -16,7 +16,7 @@ use macroquad::prelude::*;
 fn window_conf() -> Conf {
     Conf {
         window_title: "gui_metric_to_imperial".to_string(),
-        window_width: 600,
+        window_width: 610,
         window_height: 768,
         fullscreen: false,
         high_dpi: true,
@@ -28,7 +28,12 @@ fn window_conf() -> Conf {
 
 #[macroquad::main(window_conf)]
 async fn main() {
-    let mut lbl_inches = Label::new("Input your meters or \ncentimeters in the appropreiate \ntext box and then hit \ncalculate to see the converted amount.", 50.0, 50.0, 30);
+    let mut lbl_inches = Label::new(
+        "Input your meters or \ncentimeters in the appropreiate \ntext box and then hit \ncalculate to see the converted amount.",
+        50.0,
+        50.0,
+        30,
+    );
     let mut input_meters = TextInput::new(50.0, 200.0, 200.0, 50.0, 30.0);
     let mut input_centimeters = TextInput::new(350.0, 200.0, 230.0, 50.0, 30.0);
     let mut btn_exit = TextButton::new(400.0, 700.0, 150.0, 50.0, "EXIT", GRAY, RED, 30);
@@ -49,9 +54,17 @@ async fn main() {
             break;
         }
         if btn_calc.click() {
-            let meters = input_meters.get_text().parse::<f64>().unwrap_or(0.0);
-            let centimeters = input_centimeters.get_text().parse::<f64>().unwrap_or(0.0);
-            lbl_out.set_text(format!("Feet: {:.2} Inches: {:.2}", meters * 3.28084, centimeters * 0.393701));
+            let feet = input_meters.get_text().parse::<f32>();
+            let inches = input_centimeters.get_text().parse::<f32>();
+            if let Ok(feet) = feet {
+                if let Ok(inches) = inches {
+                    lbl_out.set_text(format!("Feet: {:.2} Inches: {:.2}", feet * 3.28084, inches * 0.393701));
+                } else {
+                    lbl_out.set_text("Invalid input. Please enter a valid number.");
+                }
+            } else {
+                lbl_out.set_text("Invalid input. Please enter a valid number.");
+            }
         }
         lbl_inches.draw();
         input_meters.draw();
